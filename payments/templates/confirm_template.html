@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+.centerPageAlign{
+    margin: 50px 0;
+}
+</style>
+
+<body>
+    <div style="background: #37517e; height: 100px;"></div>
+    <div class="centerPageAlign">
+            {% if success %}
+                <h3 style="text-align: center;">You have confirmed your account!</h3>
+                <div style="text-align: center;">Please return to the 
+                    <a href="#" class="nav-item active"> Home</a> page!
+                </div>
+            {% else %}
+                <h3 style="text-align: center;">Error, invalid token! Please check your email!</h3>
+            {% endif %}
+    </div>
+</body>
+</html>
+
+{% endblock %}

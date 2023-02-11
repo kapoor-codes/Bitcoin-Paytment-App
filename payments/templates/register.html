@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<style>
+.videoFixBg{
+    position: absolute;
+    top: 0;
+    z-index: -5;
+    width: 100%;
+    height: auto;
+    opacity: .7;
+    clip-path: polygon(0 0, 100% 0, 100% 91%, 0 91%);
+}
+.signupForm{
+    width: 100%;
+    border-top: 3px solid #47b2e4;
+    border-bottom: 3px solid #47b2e4;
+    padding: 30px;
+    background: #fff;
+    box-shadow: 0 0 24px 0 rgb(0 0 0 / 12%);
+}
+</style>
+
+<body>
+
+    <div style="background: #37517e; height: 100px;"></div>
+
+    <video class="videoFixBg" autoplay loop>
+        <source src="{% static 'assets/video/backgroundVid.mp4' %}" type="video/mp4">
+    </video>
+
+    <main id="main" style="border-bottom: 1px solid rgba(146, 146, 146, 0.185)">
+
+        <section id="contact" class="contact" style="padding: 30px 0;">
+        <div class="container" data-aos="fade-up">
+
+            <div class="section-title" style="padding: 5px 0;">
+            <h2 style="color: #fff;">Sign Up</h2>
+            </div>
+
+            <div class="row" style="justify-content: center;">
+
+                <div class="col-lg-5 mt-5 mt-lg-0 d-flex align-items-stretch">
+                    <form action="{% url 'register' %}" method="post" class="signupForm" autocomplete="off" >
+                    {% csrf_token %}
+                    <center><h5>{{ error1 }}{{ error2 }}{{ error3 }}{{ emailErr }}{{ passErr }}</h5></center>
+                    <div class="form-row">
+                        <label for="name">Email</label>
+                        <input type="text" class="form-control" name="email"  />
+                        <div class="validate"></div>
+                    </div>
+                    <br>
+                    <div class="form-row">
+                        <label for="name">Username</label>
+                        <input type="text" class="form-control" name="username"  />
+                        <div class="validate"></div>
+                    </div>
+                    <br>
+                    <div class="form-row">
+                        <label for="name">Password</label>
+                        <input type="password" class="form-control" name="password1"  />
+                        <div class="validate"></div>
+                    </div>
+                    <br>              
+                    <div class="form-row">
+                        <label for="name">Confirm Password:</label>
+                        <input type="password" class="form-control" name="password2"  />
+                        <div class="validate"></div>
+                    </div>
+                    <br>
+                    <div class="text-center"><button type="submit">Sign Up</button></div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+        </section><!-- End Contact Section -->
+
+    </main><!-- End #main -->
+
+</body>
+
+
+{% endblock %}

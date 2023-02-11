@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<html lang="en">
+
+<head>
+  <style>
+    .flexClass{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .flexLeft{
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .parentFlexClass{
+      display: flex;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" style="background: #37517e; padding-top: 72px; margin-top: 0px;" class="breadcrumbs">
+      <div class="container" style="color: #fff;">
+        <h4>Order ID: {{ order_id }}</h4>
+        <div><b>Transaction status: </b>{{ status }}</div>
+      </div>
+    </section><!-- End Breadcrumbs -->
+
+    {% if not customer %}
+      <h1 class="text-center mt-5 mb-5">{{Transaction}}</h1>
+    {% else %}
+
+    <section class="inner-page" style="padding: 25px 0;">
+      <div class="container">
+        <div class="row">
+          <div class="parentFlexClass">
+            <div class=" flexClass">
+              <img src="{{ product_disp }}" height="250" style="border: 1px solid #37517e; padding: 5px;" alt="">
+              <br>
+            </div>
+            <div class="flexLeft" style="padding: 20px;">
+              <h4><b>Address: </b> {{ addr }}</h4>
+              <h2>Product: <span style="color: #37517e;">{{ product_name }}</span></h2>
+              <p><b>Description</b>: <span style="color: #37517e;">{{ product_desc }}</span</p>
+              <h5><b>Price: </b>$ {{ value }}</h5>
+              <h5><b>BTC Amount: </b>{{ bits }}</h5>
+            </div>
+            <div class=" flexClass">
+              <a href="bitcoin:{{addr}}?amount={{bits}}">
+                <img height="250" style="border: 1px solid #37517e; padding: 1px;" src="https://www.bitcoinqrcodemaker.com/api/?style=bitcoin&address={{addr}}&amount={{bits}}&color=1">            
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <form action="{% url 'receive' %}" id="finalForm" method="GET">
+    <input type="hidden" id="myField1" value="" name="status">
+    <input type="hidden" id="myField2" value="" name="value">
+    <input type="hidden" id="myField3" value="" name="txid">
+    <input type="hidden" value="{{addr}}" name="addr">
+  </form>
+  {% endif %}
+  <script type="text/javascript">
+    var address="{{addr}}";
+    var status="{{invoice_status}}";
+    var socket = new WebSocket("wss://www.blockonomics.co/payment/"+ address);
+
+    socket.onmessage = function(event){
+      response = JSON.parse(event.data);
+      console.log(response,address)
+      //This condition ensures that we reload only when we get a 
+      //new payment status and don't go into a loop
+      if (parseInt(response.status) > parseInt(status)) {
+        setTimeout(function(){window.location.reload() }, 100000000);
+      }
+      else{
+        return null
+      }
+      document.getElementById('myField1').value = response.status;
+      document.getElementById('myField2').value = response.value;
+      document.getElementById('myField3').value = response.txid;
+      document.getElementById('finalForm').submit();
+    }
+  </script>
+</body>
+
+</html>
+
+{% endblock %}

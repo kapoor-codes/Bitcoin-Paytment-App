@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<style>
+.fixBTN{
+  display: inline-block;
+  padding: 12px 35px;
+  border-radius: 50px;
+  color: #47b2e4;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #47b2e4;
+}
+
+.fixBTN:hover{
+  background: #47b2e4;
+  color: #fff;
+}
+}
+</style>
+
+<body>
+
+  <div style="background: #37517e; height: 100px;"></div>
+
+  <main id="main" style="border-bottom: 1px solid rgba(146, 146, 146, 0.185)">
+
+    <!-- ======= Portfolio Details Section ======= -->
+    <section id="portfolio-details" class="portfolio-details">
+      <div class="container">
+
+        <div class="portfolio-description" style="margin-top: 20px;">
+          <center>
+            <h1>Cryptyz</h1>
+            <br>
+              {% if customer %}
+                <div>Thank you for buying! Your verification code has been email to you!</div>
+                <p><a href="{% url 'home' %}">Please return to home! :D</a></p>
+              {% else %}
+                <div>This invoice is not your's!</div>
+                <p><a href="{% url 'home' %}#products">Please buy a product here! :D</a></p>
+              {% endif %}
+          </center>
+        </div>
+
+      </div>
+    </section><!-- End Portfolio Details Section -->
+
+  </main><!-- End #main -->
+
+</body>
+
+{% endblock %}

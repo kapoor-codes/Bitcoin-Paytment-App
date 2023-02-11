@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<body>
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex align-items-center">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
+          <h1>Secure Transactions For Your Business</h1>
+          <h2>I love Cryptography. Do you?!</h2>
+          <div class="d-lg-flex">
+            <a href="https://github.com/fancehJS" class="btn-get-started scrollto">My Github</a>
+          </div>
+        </div>
+        <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
+          <img src="{% static 'assets/img/hero-img.png' %}" class="img-fluid animated" alt="">
+        </div>
+      </div>
+    </div>
+
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= Team Section ======= -->
+    <section id="products" class="team section-bg">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Products</h2>
+        </div>
+
+        <div class="row">
+        {% for i in products %}
+          <div class="col-lg-6">
+            <div class="member d-flex align-items-start" data-aos="zoom-in" data-aos-delay="100">
+              <div class="pic"><img src="{{ i.productDisp.url }}" class="img-fluid" alt=""></div>
+              <div class="member-info">
+                <h4>{{ i.productName }}</h4>
+                <span>$ {{ i.productPrice }}</span>
+                <p>{{ i.productDesc|truncatechars:50 }}</p>
+                <div class="social" style="display: block; width: 50%;">
+                    <a href="{% url 'create' pk=i.id %}" class="buy-btn" style="width: auto; background: transparent; border: 1px solid #47b2e4;">Buy</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+        </div>
+
+      </div>
+    </section><!-- End Team Section -->
+
+  </main><!-- End #main -->
+
+</body>
+
+{% endblock %}
